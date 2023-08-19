@@ -1,0 +1,42 @@
+{
+  "name": "word-search-app",
+  "productName": "word-search-app",
+  "version": "1.0.0",
+  "description": "A search word app for kdp books",
+  "main": ".webpack/main",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "theFrontCoder",
+    "email": "le.gas.du43@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.2.1",
+    "@electron-forge/maker-deb": "^6.2.1",
+    "@electron-forge/maker-rpm": "^6.2.1",
+    "@electron-forge/maker-squirrel": "^6.2.1",
+    "@electron-forge/maker-zip": "^6.2.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
+    "@electron-forge/plugin-webpack": "^6.2.1",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "electron": "25.3.1",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "pdf-merger-js": "^4.3.0",
+    "puppeteer-chromium-resolver": "^20.0.0",
+    "system-font-families": "^0.6.0"
+  }
+}

@@ -1,0 +1,399 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+:root {
+  --orange: #fb9f00;
+  --dark-blue: #0f222e;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  border: 0;
+  color: inherit;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  line-height: 1.5;
+  /* overflow: hidden; */
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+}
+
+/* utility classes */
+.flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0);
+}
+
+.btn {
+  font-weight: 500;
+  background-color: var(--dark-blue);
+  cursor: pointer;
+}
+
+/********* Menu window styling *********/
+body.menu {
+  display: flex;
+  background: url('../images/menu-bg.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.menu-container {
+  margin: auto;
+  text-align: center;
+}
+
+.menu-container > h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--orange);
+  letter-spacing: 0.5px;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
+}
+
+.menu-btns {
+  --flow-space: 2.8125rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.app-btn,
+.exit-btn {
+  padding: 0.5rem 0.75rem;
+  width: 5.875rem;
+  border-radius: 1.375rem;
+}
+
+.app-btn:hover,
+.exit-btn:hover {
+  color: var(--orange);
+}
+
+/******** App window styling ********/
+body.app {
+  background: url('../images/app-bg.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+  padding: 1.5rem 2rem;
+}
+
+#resetBtn {
+  position: absolute;
+  left: calc(100% - 12px);
+  top: 8px;
+  /* calc(100% - 2rem); */
+  translate: -100%;
+  width: 35px;
+  height: 35px;
+  /* width: calc(100% - 4rem); */
+  /* padding: .4rem .3rem; */
+  font-size: 10px;
+  border-radius: 3rem;
+  z-index: 1;
+}
+
+body.app > form {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+/* list of words'table and main heading section*/
+.words-list-section {
+  width: 42.47%;
+}
+
+.main-heading {
+  width: 15ch;
+  font-size: 2.5rem;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.55);
+}
+
+.words-list-table {
+  --flow-space: 1.125rem;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+th,
+td {
+  border: 1px solid #ffffff;
+  padding: 0.5rem;
+}
+
+td > input {
+  width: 100%;
+  outline: none;
+  background-color: transparent;
+  font-weight: 500;
+}
+
+.nb-list {
+  width: 59ch;
+  --flow-space: 1.125rem;
+  font-size: 0.75rem;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.nb-list > li {
+  --flow-space: 0.25rem;
+}
+
+/* form inputs section for the setting of the word search puzzle */
+.wordSearch-settings-section {
+  margin-top: 4.6875rem;
+  width: 55.13%;
+}
+
+.word-search-settings {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  gap: 1.375rem 0.8rem;
+}
+
+.word-search-settings > label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.word-search-settings > label > input:not(#letters-color, #circle-color),
+.word-search-settings > label > .custom-select {
+  width: var(--width);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #fff;
+  border-radius: 0.3rem;
+  background-color: transparent;
+}
+
+/* .word-search-settings > label > input:not(#letters-color, #circle-color) {
+} */
+
+.custom-select > select {
+  width: 100%;
+}
+
+label > :where(input#letters-color, input#circle-color) {
+  width: 30px;
+  height: 30px;
+  border-radius: 0.25rem;
+}
+
+label[for='letters-weight'] {
+  position: absolute;
+  top: 88px;
+  font-size: 12px;
+  gap: 0.25rem;
+}
+
+label[for='letters-font'] {
+  --width: 100px;
+  --height: 250px;
+  --right: -70px;
+  /* 40% */
+}
+
+label[for='letters-size'] {
+  --width: 28%;
+}
+
+label[for='words-size'] {
+  --width: 28%;
+}
+
+label[for='header-font'] {
+  --width: 98px;
+  --height: 240px;
+  --right: -80px;
+  /* --left: 58%; */
+}
+
+label[for="header-size"]{
+  --width: 28%;
+}
+
+label[for='grid-rows'] {
+  --width: 28%;
+}
+
+label[for='grid-columns'] {
+  --width: 28%;
+}
+
+label[for='page-margins'] {
+  --width: 28%;
+}
+
+label[for='circle-thickness'] {
+  --width: 95px;
+  --height: 155px;
+  /* --left: 60%; */
+}
+
+label[for='words-number'] {
+  --width: 100px;
+  position: absolute;
+  top: -45px;
+  left: 0;
+}
+
+label[for='words-placement'] {
+  --width: 120px;
+  position: absolute;
+  top: -45px;
+  left: calc(100% - 265px);
+}
+
+label[for='word-try'] {
+  --width: 100px;
+  --height: 115px;
+  /* --left: 50%; */
+}
+label[for="solution-grid"]{
+  --width: 50%;
+}
+
+.controls-container {
+  margin-top: 1rem;
+  grid-column: 2 span;
+  /* justify-self: end; */
+  display: flex;
+  gap: 1.25rem;
+  align-items: end;
+  justify-content: end;
+}
+
+.controls-container > :where(button, a) {
+  width: 28%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.controls-container > :where(button, a):hover,
+#resetBtn:hover {
+  color: var(--orange);
+}
+
+/* styling a custom select input for every select control*/
+.custom-select {
+  position: relative;
+  left: var(--left);
+}
+
+.custom-select > select,
+.select-hide {
+  display: none;
+}
+
+.select-selected {
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.select-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: var(--right, 0);
+  height: var(--height);
+  border: 1px solid #ffffff;
+  background-color: var(--dark-blue);
+  overflow: auto;
+  white-space: nowrap;
+  z-index: 99;
+}
+
+.select-items div {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+  border-bottom-color: #ffffff;
+}
+
+.select-items > div:hover,
+.same-as-selected {
+  background-color: #285b7b;
+}
+
+.progress-bar {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50%;
+  width: 360px;
+  height: 30px;
+  border-radius: 6px;
+  background-color: #00cc74;
+  overflow: hidden;
+}
+
+.bar {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+		45deg,
+		hsla(0, 0%, 95%, 0.8) 25%,
+		transparent 0,
+		transparent 50%,
+		hsla(0, 0%, 95%, 0.8) 0,
+		hsla(0, 0%, 95%, 0.8) 75%,
+		transparent 0,
+		transparent
+	);
+  background-size: 40px 40px;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  animation: f 2s linear infinite;
+}
+
+@keyframes f {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

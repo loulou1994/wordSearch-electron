@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Word Search Puzzle</title>
+  </head>
+  <body class="app">
+    <button id="resetBtn" class="btn">Reset</button>
+    <form
+      action="
+    "
+    >
+      <section class="words-list-section flow">
+        <h1 class="main-heading">Word Search Puzzle Generator</h1>
+        <table class="words-list-table">
+          <tr>
+            <th>Words</th>
+            <th>Titles</th>
+          </tr>
+          <tr>
+            <td><input type="text" value="" placeholder="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+          <tr>
+            <td><input type="text" value="" name="word" /></td>
+            <td><input type="text" value="" name="title" /></td>
+          </tr>
+        </table>
+        <ul class="nb-list flow">
+          <li>A word should be shorter than the number of rows or columns</li>
+          <li>Rows and columns must exceed the sum of a word's letters</li>
+          <li>
+            If a word is missing during generation, it will halt the operation
+          </li>
+          <li>
+            Retry until all words are included or verify settings (columns,
+            rows, words)
+          </li>
+        </ul>
+      </section>
+      <section class="wordSearch-settings-section flow">
+        <div action="" method="post" class="word-search-settings">
+          <label for="words-number">
+            <span>Words Number:</span>
+            <div class="custom-select">
+              <select name="words-number" id="words-number">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+          </label>
+          <label for="words-placement">
+            <span>Words Placement:</span>
+            <div class="custom-select">
+              <select name="words-placement" id="words-placement">
+                <option value="empty">Select Option</option>
+                <option value="h">Horizontal</option>
+                <option value="v">Vertical</option>
+              </select>
+            </div>
+          </label>
+          <label for="letters-color" class="flex-start">
+            <span>Color For grid Letters:</span>
+            <input
+              type="color"
+              id="letters-color"
+              value="#0000ff"
+              name="letters-color"
+            />
+          </label>
+          <label for="circle-color" class="flex-end">
+            <span>Circling words color:</span>
+            <input
+              type="color"
+              id="circle-color"
+              value="#0000ff"
+              name="circle-color"
+            />
+          </label>
+          <label for="letters-font" class="flex-start">
+            <span>Grid Letters Font:</span>
+            <div class="custom-select">
+              <select name="letters-font" id="letters-font" data-select="font">
+                <option value="empty">Select Font:</option>
+              </select>
+            </div>
+          </label>
+          <label for="letters-size" class="flex-end">
+            <span>Letter Font Size:</span>
+            <input type="number" name="letters-size" id="letters-size" min="12"/>
+          </label>
+          <label for="letters-weight">
+            <input type="checkbox" id="letters-weight" name="letters-weight" />
+            <span>Bold</span>
+          </label>
+          <label for="header-font" class="flex-start">
+            <span>Header Font:</span>
+            <div class="custom-select">
+              <select name="header-font" id="header-font" data-select="font">
+                <option value="empty">Select Font:</option>
+              </select>
+            </div>
+          </label>
+          <label for="header-size" class="flex-end">
+            <span>Header Font size:</span>
+            <input type="number" name="header-size" id="header-size" min="12"/>
+          </label>
+          <label for="words-size" class="flex-start">
+            <span>Words Font Size</span>
+            <input type="number" name="words-size" id="words-size" min="12"/>
+          </label>
+          <label for="word-try" class="flex-end">
+            <span>Word Tries:</span>
+            <div class="custom-select">
+              <select name="word-try" id="word-try">
+                <option value="empty">Select Try Times:</option>
+                <option value="100">100</option>
+                <option value="300">300</option>
+                <option value="500">500</option>
+                <option value="800">800</option>
+              </select>
+            </div>
+          </label>
+          <label for="grid-rows" class="flex-start">
+            <span>Rows Number:</span>
+            <input
+              type="number"
+              name="grid-rows"
+              id="grid-rows"
+              max="26"
+              min="4"
+            />
+          </label>
+          <label for="grid-columns" class="flex-end">
+            <span>Columns Number:</span>
+            <input
+              type="number"
+              name="grid-columns"
+              id="grid-columns"
+              max="26"
+              min="4"
+            />
+          </label>
+          <label for="grid-lining" class="flex-start">
+            <span>Show Grid Lines:</span>
+            <input type="radio" name="gridOutline" id="grid-lining" />
+          </label>
+          <label for="grid-outlining" class="flex-end">
+            <span>Show Only Outlines:</span>
+            <input type="radio" name="gridOutline" id="grid-outlining" />
+          </label>
+          <label for="words-casing" class="flex-start">
+            <span>Lower Case For Words list:</span>
+            <input type="checkbox" name="words-casing" id="words-casing" />
+          </label>
+          <label for="page-margins" class="flex-end">
+            <span>Add Margins (inch):</span>
+            <input
+              type="number"
+              name="page-margins"
+              id="page-margins"
+              max="1"
+              min="0"
+              step="any"
+            />
+          </label>
+          <label for="circle-thickness" class="flex-start">
+            <span>Circles Thinkness:</span>
+            <div class="custom-select">
+              <select name="circle-thickness" id="circle-thickness">
+                <option value="empty">Select thickness</option>
+                <option value="0.5">Thin</option>
+                <option value="1">Normal</option>
+                <option value="2">Thick</option>
+              </select>
+            </div>
+          </label>
+          <label for="title-presence" class="flex-end">
+            <span>Hide Titles:</span>
+            <input type="checkbox" name="title-presence" id="title-presence" />
+          </label>
+          <label for="words-presence" class="flex-start">
+            <span>Hide Words List:</span>
+            <input type="checkbox" name="words-presence" id="words-presence" />
+          </label>
+          <label for="solution-grid" class="flex-end">
+            <span>Solution Grid:</span>
+            <div class="custom-select">
+              <select name="solution-grid" id="solution-grid">
+                <option value="empty">Select solution</option>
+                <option value="cell">Show only correct cells</option>
+                <option value="circle">Circle words</option>
+                <option value="highlight">Highlight correct cells</option>
+              </select>
+            </div>
+          </label>
+          <div class="controls-container">
+            <button type="submit" class="btn">Create Sheets</button>
+            <button class="btn add-word">Add Word</button>
+            <a href="" id="menu-window" class="btn go-menu">Exit</a>
+          </div>
+        </div>
+      </section>
+    </form>
+    <div class="progress-bar">
+      <div class="bar"></div>
+    </div>
+  </body>
+</html>
