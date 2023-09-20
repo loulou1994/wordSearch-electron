@@ -127,10 +127,13 @@ export function extractInputsData() {
     }
   });
   wordElements.forEach((wordElement) => {
+    const wordsArray = wordElement.value.trim().replace(/,\s/g, ',').split(',');
     if (wordElement.value) {
-      words.push(wordElement.value);
+      words.push(...wordsArray);
     }
   });
+
+  console.log(words)
   return {
     wordsData: {
       words,

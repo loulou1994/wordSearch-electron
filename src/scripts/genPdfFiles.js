@@ -6,6 +6,7 @@ const PCR = require('puppeteer-chromium-resolver');
 const PDFMerger = require('pdf-merger-js');
 
 const genHtmlTemplate = require('./htmlTemplate');
+const genSolutionTemplate = require('./solutionTemplate');
 const genHtmlTemplateScript = require('./htmlTemplateScript');
 const searchWordGenerator = require('./wordSearchGenerator');
 
@@ -29,58 +30,60 @@ module.exports = async function pdfGenerator(searchWordData, filePath) {
     });
   }
   const TemplatesOutputPath = path.join(app.getAppPath(), '..');
-  let showSolution = false;
-  let pdfFileName = '';
   try {
     const stats = await PCR({});
     const browser = await stats.puppeteer.launch({
       executablePath: stats.executablePath,
     });
     const page = await browser.newPage();
-
+    await page.setViewport({
+      width: 816,
+      height: 1056,
+    });
     await fs.writeFile(
       path.join(TemplatesOutputPath, '/htmlTemplateScript.js'),
       genHtmlTemplateScript,
       'utf-8'
     );
-    for (let i = 0; i < searchWordTables.length * 2; ++i) {
-      if (i === searchWordTables.length) {
+    let htmlTemplate = '';
+    let pdfFileName = '';
+    let showSolution = false;
+    let i = 0;
+    while (i < searchWordTables.length * 2) {
+      console.log(i)
+      if (i === searchWordTables.length && !showSolution) {
         showSolution = true;
-      }
-
-      const pageNumber =
-        Math.floor(i % searchWordTables.length) + 1 > 9
-          ? Math.floor(i % searchWordTables.length) + 1
-          : `0${Math.floor(i % searchWordTables.length) + 1}`;
-      if (showSolution) {
-        pdfFileName = `solution${pageNumber}`;
+        htmlTemplate = genSolutionTemplate(
+          searchWordData.styling.headerFontSelect
+        );
       } else {
-        pdfFileName = pageNumber;
+        const pageNumber =
+          Math.floor(i % searchWordTables.length) + 1 > 9
+            ? Math.floor(i % searchWordTables.length) + 1
+            : `0${Math.floor(i % searchWordTables.length) + 1}`;
+
+        pdfFileName = showSolution ? `solution${pageNumber}` : pageNumber;
+        const wordSearchTitle = showSolution
+          ? `PUZZLE ${pageNumber}`
+          : searchWordData.titlesData[i % searchWordTables.length].title;
+
+        htmlTemplate = genHtmlTemplate(
+          {
+            table: searchWordTables[i % searchWordTables.length].GRID,
+            ...searchWordData.titlesData[i % searchWordTables.length],
+            title: wordSearchTitle,
+          },
+          searchWordData.styling,
+          showSolution
+        );
+        i++;
       }
-      const wordSearchTitle = showSolution
-        ? `PUZZLE ${pageNumber}`
-        : searchWordData.titlesData[i % searchWordTables.length].title;
-
-      const htmlTemplate = genHtmlTemplate(
-        {
-          table: searchWordTables[i % searchWordTables.length].GRID,
-          ...searchWordData.titlesData[i % searchWordTables.length],
-          title: wordSearchTitle,
-        },
-        searchWordData.styling,
-        showSolution
-      );
-
       // path.join(__dirname, '..', '..', 'template.html'),
       await fs.writeFile(
         path.join(TemplatesOutputPath, '/template.html'),
         htmlTemplate,
         'utf-8'
       );
-      await page.setViewport({
-        width: 816,
-        height: 1056,
-      });
       // ${path.join(__dirname, '..', '..', 'template.html')}
       await page.goto(
         `file://${path.join(TemplatesOutputPath, '/template.html')}`,
@@ -107,7 +110,8 @@ module.exports = async function pdfGenerator(searchWordData, filePath) {
         path.join(TemplatesOutputPath, `wordSearch-${pdfFileName}.pdf`)
       );
     }
-
+    // for (let i = 0; i < searchWordTables.length * 2 + 1; ++i) {
+    // }
     const mergedPdfBuffer = await merger.saveAsBuffer();
     await fs.writeFile(filePath, mergedPdfBuffer, 'utf-8', (err) => {
       throw new Error(`Error while saving file: ${err}`);
