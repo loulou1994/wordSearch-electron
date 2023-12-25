@@ -10,7 +10,7 @@ module.exports = (() => {
         Array.from({ length: rows }, () =>
           Array(cols).fill({
             wordId: [],
-            letter: '',
+            letter: "",
             filled: false,
           })
         )
@@ -52,6 +52,7 @@ module.exports = (() => {
     let countWords = 0;
 
     for (const word of wordsList) {
+      const wordTweaked = word.replace(/[- ]/, "");
       let wordIsPlaced = false;
       for (let i = 0; i < attempts; ++i) {
         const row = Math.floor(Math.random() * rows);
@@ -60,73 +61,117 @@ module.exports = (() => {
           DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
 
         // console.log(isSafeToPlace(word, row, col, direction))
-        wordIsPlaced = isSafeToPlace(word, row, col, direction);
+        wordIsPlaced = isSafeToPlace(wordTweaked, row, col, direction);
         if (wordIsPlaced) {
           countWords++;
-          for (let j = 0; j < word.length; ++j) {
+          for (let j = 0; j < wordTweaked.length; ++j) {
             const r = row + j * DR[direction];
             const c = col + j * DC[direction];
-            // console.log(word[j], r, c, word.length);
+            // console.log(wordTweaked[j], r, c, wordTweaked.length);
             GRID[r][c].filled = true;
             GRID[r][c].wordId.push(countWords);
-            GRID[r][c].letter = word[j];
+            GRID[r][c].letter = wordTweaked[j];
           }
           break;
         }
       }
-      if (!wordIsPlaced){
-        return false
+      if (!wordIsPlaced) {
+        return false;
       }
     }
-    return true
+    return true;
   }
 
-  function addRandomLetter() {
-    const letters = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z',
-    ];
+  function addRandomLetter(chosenAlphabet) {
+    const alphabetsList = new Map([
+      [
+        "latin",
+        [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+        ],
+      ],
+      [
+        "arabic",
+        [
+          "أ",
+          "ب",
+          "ت",
+          "ث",
+          "ج",
+          "ح",
+          "خ",
+          "د",
+          "ذ",
+          "ر",
+          "ز",
+          "س",
+          "ش",
+          "ص",
+          "ض",
+          "ط",
+          "ظ",
+          "ع",
+          "غ",
+          "ف",
+          "ق",
+          "ك",
+          "ل",
+          "م",
+          "ن",
+          "ه",
+          "و",
+          "ي",
+        ],
+      ],
+    ]);
     GRID.forEach((row) => {
       row.forEach((col) => {
         if (!col.filled) {
+          const randomLetter = alphabetsList.get(chosenAlphabet)[Math.floor(Math.random() * alphabetsList.get(chosenAlphabet).length)]
           col.filled = true;
-          col.letter = letters[Math.floor(Math.random() * letters.length)];
+          col.letter = randomLetter;  // letters[Math.floor(Math.random() * letters.length)]
         }
       });
     });
   }
 
-  function setUpGrid(gridDimensions, wordsList, fitWordAttemps) {
+  function setUpGrid(
+    gridDimensions,
+    wordsList,
+    fitWordAttemps,
+    chosenAlphabet
+  ) {
     let allWordsAdded = true;
     generateWordsGrid(gridDimensions.rows, gridDimensions.cols);
     if (!placeWord(wordsList, fitWordAttemps)) {
       allWordsAdded = false;
     }
-    addRandomLetter();
+    addRandomLetter(chosenAlphabet);
     return { GRID, allWordsAdded };
   }
 

@@ -1,4 +1,4 @@
-function genHtmlTemplate(wordsData, styles, showSolution=false) {
+function genHtmlTemplate(wordsData, styles, showSolution = false) {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,21 +9,25 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
     <style>
       :root {
         --margins: ${styles.pageMarginsInput}in;
-        --show-title: ${styles.titlePresence && showSolution ? 'none' : 'block'};
+        --show-title: ${
+          styles.titlePresence && showSolution ? "none" : "block"
+        };
         --font-letter: ${styles.lettersFontSelect};
         --font-header: ${styles.headerFontSelect};
         --header-size: ${styles.headerSizeInput}px;
         --rows: ${styles.gridRowsInput};
         --cols: ${styles.gridColumnsInput};
         --with-gridlines: ${
-          styles.gridOutlineRadio === 'grid' ? 'inherit' : 'none'
+          styles.gridOutlineRadio === "grid" ? "inherit" : "none"
         };
         --letter-size: ${styles.lettersSizeInput}px;
-        --letter-weight: ${styles.lettersWeight ? 'bold' : 'normal'};
+        --letter-weight: ${styles.lettersWeight ? "bold" : "normal"};
         --letter-clr: ${styles.lettersColorInput};
-        --show-words: ${styles.wordsPresence && showSolution ? 'none' : 'block'};
+        --show-words: ${
+          styles.wordsPresence && showSolution ? "none" : "block"
+        };
         --font-word: ${styles.wordsSizeInput}px;
-        --word-case: ${styles.wordsCasing ? 'lowercase' : 'uppercase'};
+        --word-case: ${styles.wordsCasing ? "lowercase" : "uppercase"};
       }
 
       *,
@@ -36,8 +40,17 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
       }
 
       body {
+        overflow: hidden;
         font-family: var(--font-letter);
-        padding: var(--margins, 0.625in);
+        display: grid;
+        width: 100vw;
+        height: 100vh;
+        gap: 48px 22px;
+        margin: var(--margins, 0px);
+        place-content: center;
+        grid-template-columns: repeat(${
+          Number(styles.gridsPageSelect) > 1 ? "2" : "1"
+        }, 1fr);
       }
 
       /* formula to convert incoming inch to pixel to match: calc((incoming inch / 96) * 300)*/
@@ -48,6 +61,22 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
         align-items: center;
         /*   min-height: 100vh; */
         /*   padding: calc((0.90667in / 96) * 300); */
+      }
+
+      .table-wrapper:nth-child(1) {
+        grid-column: 1 / 2;
+      }
+
+      .table-wrapper:nth-child(2) {
+        grid-column: 2 / 3;
+      }
+
+      .table-wrapper:nth-child(3) {
+        grid-column: 1 / ${Number(styles.gridsPageSelect) === 3 ? "3" : "2"};
+      }
+
+      .table-wrapper:nth-child(4) {
+        grid-column: 2 / 3;
       }
 
       h1 {
@@ -64,7 +93,7 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
 
       .table {
         display: grid;
-        margin-block: 0.39583in;
+        margin-block: 20px;
         grid-template-columns: repeat(var(--cols), minmax(30px, 1fr));
         grid-template-rows: repeat(var(--rows), 1fr);
         gap: var(--with-gridlines, 1px);
@@ -94,42 +123,60 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
         font-size: var(--font-word, 0.2083in);
         text-transform: var(--word-case, initial);
         font-weight: bold;
+        text-align: center;
       }
 
       .words-container > p {
         display: var(--show-words);
       }
+
+      .circles-wrapper {
+        position: absolute;
+      }
     </style>
   </head>
   <body>
-    <div class="table-wrapper">
-      <h1>${wordsData.title}</h1>
-      <div class="table"></div>
-    </div>
-    <div class="words-container">
-    </div>
     <script src="./htmlTemplateScript.js"></script>
     <script>
-    const tableEl = document.querySelector('.table');
-    const wordsContainer = document.querySelector('.words-container');
-    const searchWordGrid = ${JSON.stringify(wordsData.table)};
     const {showSolution} = ${JSON.stringify({ showSolution })};
+    const setStyles = ${JSON.stringify({ ...styles })}
+    const wordsWrapperStyles = ${JSON.stringify(
+      styles.wordsPlacementSelect === "v"
+        ? {
+            display: `grid`,
+            gridTemplateColumns: `repeat(3, 1fr)`,
+            justifyItems: `flex-start`,
+          }
+        : {
+            display: `flex`,
+            flexWrap: `wrap`,
+            justifyContent: `flex-start`,
+          }
+    )};
+    const firstScriptTag = document.querySelector('script');
 
-      wordsContainer.style.setProperty('--container-width', tableEl.offsetWidth + 'px');
-      const wordsContainerStyles = ${JSON.stringify(
-        styles.wordsPlacementSelect === 'v'
-          ? {
-              display: `grid`,
-              gridTemplateColumns: `repeat(3, 1fr)`,
-              justifyItems: `flex-start`,
-            }
-          : {
-              display: `flex`,
-              flexWrap: `wrap`,
-              justifyContent: `flex-start`,
-            }
-      )};
-      Object.assign(wordsContainer.style, wordsContainerStyles)
+    ${JSON.stringify(wordsData)}.forEach(gridData => {
+      const tableWrapperEl = document.createElement('div');
+      const headingTitle = document.createElement('h1');
+      const tableEl = document.createElement('div');
+      const wordsWrapperEl = document.createElement('div');
+
+      tableWrapperEl.className = "table-wrapper";
+      tableEl.className = "table";
+      wordsWrapperEl.className = "words-container";
+
+      headingTitle.textContent =  gridData.title;
+
+      tableWrapperEl.appendChild(headingTitle);
+      tableWrapperEl.appendChild(tableEl);
+      tableWrapperEl.appendChild(wordsWrapperEl);
+      document.body.insertBefore(tableWrapperEl, firstScriptTag);
+
+      wordsWrapperEl.style.setProperty('--container-width', tableEl.offsetWidth + 'px');
+      Object.assign(wordsWrapperEl.style, wordsWrapperStyles);
+
+      const searchWordGrid = gridData.table;
+      const setOfWords = gridData.words
 
       searchWordGrid.forEach((row) => {
         row.forEach((col) => {
@@ -143,18 +190,21 @@ function genHtmlTemplate(wordsData, styles, showSolution=false) {
           tableEl.appendChild(column);
         });
       });
-
-      ${JSON.stringify(wordsData.words)}.forEach((word) => {
+      setOfWords.forEach((word) => {
         const paragraphEl = document.createElement('p');
         paragraphEl.textContent = word;
-        wordsContainer.appendChild(paragraphEl);
+        wordsWrapperEl.appendChild(paragraphEl);
       })
-      if (showSolution){
-        showAnswsers([...tableEl.children], ${JSON.stringify({
-          ...styles,
-          numOfWords: wordsData.words.length,
-        })});
-      }
+    })
+
+    if (showSolution) {
+      const tableWrappers = document.querySelectorAll('.table-wrapper');
+      tableWrappers.forEach((tableWrapper) => {
+        const table = tableWrapper.querySelector('.table');
+        const wordsContainer = tableWrapper.querySelector('.words-container');
+        showAnswsers([...table.children], {...setStyles, numOfWords: wordsContainer.children.length});
+      })
+    }
     </script>
   </body>
 </html>`;

@@ -24,7 +24,7 @@ const createWindow = () => {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
     center: true,
-    resizable: false,
+    // resizable: false,
   });
 
   // console.log(APP_WINDOW_WEBPACK_ENTRY, MAIN_WINDOW_WEBPACK_ENTRY)
@@ -82,7 +82,7 @@ app.on('ready', () => {
       const printingSucceeded = await generatePdfs(wordsData, filePath);
       return printingSucceeded;
     } catch (err) {
-      throw new Error(err);
+      throw new Error(err); 
     }
   });
   createWindow();

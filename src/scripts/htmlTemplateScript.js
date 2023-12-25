@@ -1,7 +1,9 @@
 module.exports = (() => {
   return `
-function drawCircles(numberOfWords, style) {
-  const cells = document.querySelectorAll('.cell');
+function drawCircles(numberOfWords, style, cells) {
+  const firstScriptTag = document.querySelector('script');
+  const circlesWrapper = document.createElement('div');
+  circlesWrapper.className = 'circles-wrapper';
   const validLettersCoords = Array.from({ length: numberOfWords }, () => []);
 
   cells.forEach((cell) => {
@@ -19,7 +21,6 @@ function drawCircles(numberOfWords, style) {
 
   const circleW = cells[0].getBoundingClientRect().width;
   const cellsGaping = style.tableType === 'grid' ? 1 : 0;
-  console.log('gaping: ' + cellsGaping);
   validLettersCoords.forEach((wordElements) => {
     const circleDiv = document.createElement('div');
     const circleH =
@@ -49,8 +50,9 @@ function drawCircles(numberOfWords, style) {
       scale: \`\${scaleY} \${1}\`,
     };
     Object.assign(circleDiv.style, styles);
-    document.body.appendChild(circleDiv);
+    circlesWrapper.appendChild(circleDiv);
   });
+  document.body.insertBefore(circlesWrapper, firstScriptTag)
 }
 
 function showAnswsers(searchWordCells, styles) {
@@ -59,7 +61,8 @@ function showAnswsers(searchWordCells, styles) {
       circleColor: styles.circleColorInput,
       circleThickness: styles.circleThicknessSelect,
       tableType: styles.gridOutlineRadio,
-    });
+    }, searchWordCells);
+
   } else if (styles.solutionGridSelect === 'cell') {
     searchWordCells.forEach((cell) => {
       if (!cell.dataset['wordid']) {

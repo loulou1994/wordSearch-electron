@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     fontsData = await window.electronAPI.loadOsFonts();
   } catch (err) {
-    console.log('Error happened: ' + err);
+    // console.log('Error happened: ' + err);
     window.electronAPI.alertMessage(
       'system fonts could not be loaded for some reason. Default fonts will be used instead.'
     );
